@@ -120,6 +120,18 @@ section {
     text-align: left;
 }
 
+.floating__button {
+    background-image: url(../images/up_arrow.svg);
+    position: fixed;
+    width: 64px;
+	height: 64px;
+	bottom: 32px;
+	right: 32px;
+    border-radius: 50%;
+    box-shadow: 4px 12px 16px 0 rgba(0,0,0,0.6);
+    opacity: 0;
+}
+
 @media only screen and (min-width: 35em){
     .landing__container {
         max-width: 50em;

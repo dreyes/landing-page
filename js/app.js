@@ -20,6 +20,8 @@
 const listOfSections = document.querySelectorAll('.landing__container');
 const mainMenu = document.querySelector('.page__header');
 const navMenu = document.getElementById('navbar__list');
+const scrollTopBtn = document.querySelector('.floating__button');
+let timeVar;
 /**
  * End Global letiables
  * Start Helper Functions
@@ -40,12 +42,12 @@ for (let i = 0; i < listOfSections.length; i++) {
     let menuItem = document.createElement('li');
     let menuLink = document.createElement('a');
     let menuItemName = section.querySelector('h2').innerText;
-    //let menuLinkText = '#' + section.parentElement.getAttribute('id');
+    // Adding class for styling
     menuLink.setAttribute('class', 'menu__link');
-    //menuLink.setAttribute('href', menuLinkText);
-    menuLink.setAttribute('transition', 'all .2s ease-in-out');
+    // Adds a tag element to the list item
     menuItem.appendChild(menuLink);
     menuItem.querySelector('a').innerText = menuItemName;
+    // Adds the list item to the unordered list
     navMenu.appendChild(menuItem);
 }
 
@@ -53,6 +55,8 @@ for (let i = 0; i < listOfSections.length; i++) {
 // Add class 'active' to section when near top of viewport
 function isNearViewport (element) {
     let bounding = element.getBoundingClientRect();
+    // The 70 value gives allows for the element to be selected, while getting
+    // close to the top.
     if (bounding.top <= 70 && bounding.top >= 70 - bounding.height) {
         return true;
     } else {
@@ -66,24 +70,39 @@ function scrollToPosition (linkTo) {
 };
 
 // Hide nav menu afterscroll
-//const navMenu = querySelector('navbar__menu');
-let timeVar;
 function hideNavMenu () {
+    // The Timeout function hides the Nav Bar after 1.5 seconds of not scrolling
     timeVar = setTimeout(function () {
         mainMenu.style.transition = 'opacity 0.6s ease';
+        // Opacity 0 hides the Nav Bar with a smooth transition of 0.6s
         mainMenu.style.opacity = 0;
-        //mainMenu.style.display = 'none';
-        //mainMenu.style.transition = 'visibility 0s linear 300ms, opacity 300ms';
-    }, 2000);
+        hideScrollTopBtn();
+    }, 1500);
 
 };
 
 function showNavMenu () {
     mainMenu.style.transition = 'opacity 0.3s ease';
+    // Opacity 1 shows the Nav Bar with a smooth transition of 0.3s
     mainMenu.style.opacity = 1;
-    //mainMenu.style.display = 'block';
-    //mainMenu.style.transition = 'visibility 0s linear 0s, opacity 300ms';
+    // This function interrupts the hide timeout to stop hiding when the
+    // viewport passes from a in Y greater than 120px to 120px or lower.
+    // The 120px come from the scroll eventListener if.
     clearTimeout(timeVar);
+}
+
+function hideScrollTopBtn () {
+    scrollTopBtn.style.transition = 'opacity 0.6s ease';
+    // Opacity 0 hides the Nav Bar with a smooth transition of 0.6s
+    scrollTopBtn.style.opacity = 0;
+    scrollTopBtn.style.display = 'none';
+};
+
+function showScrollTopBtn () {
+    scrollTopBtn.style.display = 'block';
+    scrollTopBtn.style.transition = 'opacity 0.3s ease';
+    // Opacity 1 shows the Nav Bar with a smooth transition of 0.3s
+    scrollTopBtn.style.opacity = 1;
 }
 
 /**
@@ -97,8 +116,12 @@ function showNavMenu () {
 // Scroll to section on link click
 const anchors = navMenu.getElementsByTagName('a');
 for (let i = 0; i < anchors.length; i++) {
+    // The menu is created in the same order as the elements on the page.
+    // The [i] allows us to target the same element on the main menu
+    // corresponding to the section on the page.
     let linkFrom = anchors[i];
     let linkTo = listOfSections[i];
+    // Event listener to go to the position of the clicked element.
     linkFrom.addEventListener ('click', function() {
         scrollToPosition(linkTo);
     })
@@ -127,10 +150,29 @@ document.addEventListener('scroll', function(){
     showNavMenu();
     if (window.pageYOffset < 120) {
         showNavMenu();
+        hideScrollTopBtn();
         console.log(window.pageYOffset);
     } else {
+        showScrollTopBtn();
         hideNavMenu();
         console.log(window.pageYOffset);
     }
 
+})
+
+// Event listener to show main menu while hovering on top of it.
+mainMenu.addEventListener('mouseenter', function() {
+    showNavMenu();
+    showScrollTopBtn();
+    // Event listener to hide main menu when hovering on top of it stops.
+    mainMenu.addEventListener('mouseleave', function() {
+        hideNavMenu();
+    })
+})
+
+scrollTopBtn.addEventListener('click', function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
 })
