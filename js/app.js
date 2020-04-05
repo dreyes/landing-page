@@ -18,6 +18,7 @@
  *
 */
 const listOfSections = document.querySelectorAll('.landing__container');
+const mainMenu = document.querySelector('.page__header');
 const navMenu = document.getElementById('navbar__list');
 /**
  * End Global letiables
@@ -64,6 +65,27 @@ function scrollToPosition (linkTo) {
     linkTo.scrollIntoView({behavior: 'smooth'});
 };
 
+// Hide nav menu afterscroll
+//const navMenu = querySelector('navbar__menu');
+let timeVar;
+function hideNavMenu () {
+    timeVar = setTimeout(function () {
+        mainMenu.style.transition = 'opacity 0.6s ease';
+        mainMenu.style.opacity = 0;
+        //mainMenu.style.display = 'none';
+        //mainMenu.style.transition = 'visibility 0s linear 300ms, opacity 300ms';
+    }, 2000);
+
+};
+
+function showNavMenu () {
+    mainMenu.style.transition = 'opacity 0.3s ease';
+    mainMenu.style.opacity = 1;
+    //mainMenu.style.display = 'block';
+    //mainMenu.style.transition = 'visibility 0s linear 0s, opacity 300ms';
+    clearTimeout(timeVar);
+}
+
 /**
  * End Main Functions
  * Begin Events
@@ -73,7 +95,6 @@ function scrollToPosition (linkTo) {
 // Build menu
 
 // Scroll to section on link click
-
 const anchors = navMenu.getElementsByTagName('a');
 for (let i = 0; i < anchors.length; i++) {
     let linkFrom = anchors[i];
@@ -103,4 +124,13 @@ document.addEventListener('scroll', function(){
             menuList[i].classList.remove('active');
         }
     }
+    showNavMenu();
+    if (window.pageYOffset < 120) {
+        showNavMenu();
+        console.log(window.pageYOffset);
+    } else {
+        hideNavMenu();
+        console.log(window.pageYOffset);
+    }
+
 })
