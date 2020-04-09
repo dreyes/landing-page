@@ -21,6 +21,7 @@ const listOfSections = document.querySelectorAll('.landing__container');
 const mainMenu = document.querySelector('.page__header');
 const navMenu = document.getElementById('navbar__list');
 const scrollTopBtn = document.querySelector('.floating__button');
+const listOfContent = document.querySelectorAll('.content');
 let timeVar;
 /**
  * End Global letiables
@@ -133,7 +134,7 @@ document.addEventListener('scroll', function(){
         let section = listOfSections[i];
         let activeSection = section.querySelector('h2').innerText;
         const menuList = navMenu.querySelectorAll('a');
-        if (isNearViewport(section)) {
+        if (isNearViewport(section) && !section.classList.contains("collapse")) {
             section.parentElement.classList.add('your-active-class');
             for (let i = 0; i < menuList.length; i++) {
                 if(activeSection === menuList[i].innerText) {
@@ -151,23 +152,24 @@ document.addEventListener('scroll', function(){
     if (window.pageYOffset < 120) {
         showNavMenu();
         hideScrollTopBtn();
-        console.log(window.pageYOffset);
     } else {
         showScrollTopBtn();
         hideNavMenu();
-        console.log(window.pageYOffset);
     }
 
 })
 
 // Event listener to show main menu while hovering on top of it.
 mainMenu.addEventListener('mouseenter', function() {
-    showNavMenu();
-    showScrollTopBtn();
-    // Event listener to hide main menu when hovering on top of it stops.
-    mainMenu.addEventListener('mouseleave', function() {
-        hideNavMenu();
-    })
+    console.log(window.pageYOffset);
+    if (window.pageYOffset >= 120) {
+        showNavMenu();
+        showScrollTopBtn();
+        // Event listener to hide main menu when hovering on top of it stops.
+        mainMenu.addEventListener('mouseleave', function() {
+            hideNavMenu();
+        })
+    }
 })
 
 scrollTopBtn.addEventListener('click', function() {
@@ -176,3 +178,24 @@ scrollTopBtn.addEventListener('click', function() {
       behavior: 'smooth'
     });
 })
+
+scrollTopBtn.addEventListener('mouseenter', function() {
+    showNavMenu();
+    showScrollTopBtn();
+    scrollTopBtn.addEventListener('mouseleave', function() {
+        hideNavMenu();
+    })
+
+})
+
+for (let i = 0; i < listOfSections.length; i++) {
+    let section = listOfSections[i];
+    let collapseBtn = section.querySelector('a');
+    // Adding class for styling
+    collapseBtn.addEventListener('click', function() {
+        listOfContent[i].classList.toggle('collapse');
+        section.classList.remove('your-active-class');
+        collapseBtn.classList.toggle('expand__btn');
+        collapseBtn.classList.toggle('collapse__btn');
+    })
+}
