@@ -7,7 +7,7 @@
  * To learn more, visit: https://css-tricks.com/reboot-resets-reasoning/
  *
 */
-
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,300;0,500;0,700;1,300;1,500;1,700&display=swap');
 
 /* ---- Base Rules ---- */
 body {
@@ -23,6 +23,14 @@ h1 {
     font-family: 'Fira Sans', sans-serif;
     font-size: 3em;
     margin: 2em 1rem;
+}
+
+blockquote {
+  /* font: font-style font-variant font-weight font-size/line-height font-family; */
+  font: italic 300 20px/24px Zilla Slab;
+  display: flex;
+  align-items: center;
+  color: #FDFBB6;
 }
 
 @media only screen and (min-width: 35em){
@@ -50,9 +58,11 @@ main {
     margin: 10vh 1em 10vh;
 }
 
-.main-hero {
+.main__hero {
+    display: flex;
     min-height: 40vh;
     padding-top: 3em;
+    justify-content: space-between;
 }
 
 section {
@@ -125,12 +135,13 @@ section {
     background-image: url(../images/up_arrow.svg);
     position: fixed;
     width: 64px;
-	height: 64px;
-	bottom: 32px;
-	right: 32px;
+	  height: 64px;
+	  bottom: 32px;
+    right: 32px;
     border-radius: 50%;
     box-shadow: 4px 12px 16px 0 rgba(0,0,0,0.6);
     opacity: 0;
+    transition: background-image 0.2s ease-in-out;
 }
 
 .floating__button:hover {
@@ -150,6 +161,7 @@ section {
     height: 48px;
     margin-left: 16px;
     margin-right: 16px;
+    transition: background-image 0.2s ease-in-out;
 }
 
 .collapse__btn:hover {
@@ -163,6 +175,7 @@ section {
     height: 48px;
     margin-left: 16px;
     margin-right: 16px;
+    transition: background-image 0.2s ease-in-out;
 }
 
 .expand__btn:hover {
@@ -171,6 +184,15 @@ section {
 
 .section__header {
     display: flex;
+}
+
+.header__image {
+    background-image: url(../images/covid19.png);
+    position: sticky;
+
+    width: 35vw;
+    height: auto;
+    background-size: cover;
 }
 
 @media only screen and (min-width: 35em){
