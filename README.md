@@ -3,8 +3,8 @@
 ## Table of Contents
 
 * [Summary](#summary)
-* [The JavaScript Code](#the-js-code)
-* [The HTML and CSS Code](html-and-css)
+* [The JavaScript Code](#the-javascript-code)
+* [The HTML and CSS Code](#the-html-and-css-code)
 
 ## Summary
 
@@ -33,4 +33,4 @@ The **HTML** and **CSS** were modified to complete all requirements.
 
 In **HTML** content was added regarding the COVID-19 outbreak. One section was added having a total of four from the original project, and some classes were added to the existent code. Some elements were added from external sources _(a video and two graphics)_.
 
-In **CSS** new classes were added and some were modified. Also an external font from **Google Fonts** was added too. Media query was used for responsiveness. 
+In **CSS** new classes were added and some were modified. Also an external font from **Google Fonts** was added too. Media query was used for responsiveness.
