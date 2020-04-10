@@ -58,17 +58,13 @@ function isNearViewport (element) {
     let bounding = element.getBoundingClientRect();
     // The 70 value gives allows for the element to be selected, while getting
     // close to the top.
-    if (bounding.top <= 70 && bounding.top >= 70 - bounding.height) {
-        return true;
-    } else {
-        return false;
-    }
-};
+    return bounding.top <= 70 && bounding.top >= 70 - bounding.height ? true : false;
+}
 
 // Scroll to anchor ID using scrollTO event
 function scrollToPosition (linkTo) {
     linkTo.scrollIntoView({behavior: 'smooth'});
-};
+}
 
 // Hide nav menu afterscroll
 function hideNavMenu () {
@@ -80,7 +76,7 @@ function hideNavMenu () {
         hideScrollTopBtn();
     }, 1500);
 
-};
+}
 
 function showNavMenu () {
     mainMenu.style.transition = 'opacity 0.3s ease';
@@ -97,7 +93,7 @@ function hideScrollTopBtn () {
     // Opacity 0 hides the Nav Bar with a smooth transition of 0.6s
     scrollTopBtn.style.opacity = 0;
     scrollTopBtn.style.display = 'none';
-};
+}
 
 function showScrollTopBtn () {
     scrollTopBtn.style.display = 'block';
@@ -132,8 +128,14 @@ for (let i = 0; i < anchors.length; i++) {
 document.addEventListener('scroll', function(){
     for (let i = 0; i < listOfSections.length; i++) {
         let section = listOfSections[i];
-        let activeSection = section.querySelector('h2').innerText;
+        /* Using the dataset attribute from the parent element we can collect the
+        // name to be used in the menu.
+        // Another option could be to use:
+        // let activeSection = section.querySelector('h2').innerText;
+        // that option could guarantee the same name. */
+        let activeSection = section.parentElement.dataset.nav;
         const menuList = navMenu.querySelectorAll('a');
+        // This will review the current section in the viewport to set as active.
         if (isNearViewport(section) && !section.classList.contains("collapse")) {
             section.parentElement.classList.add('your-active-class');
             for (let i = 0; i < menuList.length; i++) {
@@ -148,11 +150,15 @@ document.addEventListener('scroll', function(){
             menuList[i].classList.remove('active');
         }
     }
+    // The following if statement shows or hides the NavBar and ScrollTopBtn.
+    // This is done when the pageYOffset is creater than 120px.
     showNavMenu();
     if (window.pageYOffset < 120) {
+    // While at the top, the NavBar remains shown and the ScrollTopBtn is hidden.
         showNavMenu();
         hideScrollTopBtn();
     } else {
+    // When scrolling below 120px the ScrollTopBtn is shown and hideNavMenu function gets excecuted.
         showScrollTopBtn();
         hideNavMenu();
     }
@@ -161,7 +167,6 @@ document.addEventListener('scroll', function(){
 
 // Event listener to show main menu while hovering on top of it.
 mainMenu.addEventListener('mouseenter', function() {
-    console.log(window.pageYOffset);
     if (window.pageYOffset >= 120) {
         showNavMenu();
         showScrollTopBtn();
@@ -172,6 +177,7 @@ mainMenu.addEventListener('mouseenter', function() {
     }
 })
 
+// Event listener to scroll to top on click of the button, it uses a smooth effect.
 scrollTopBtn.addEventListener('click', function() {
     window.scrollTo({
       top: 0,
@@ -179,6 +185,8 @@ scrollTopBtn.addEventListener('click', function() {
     });
 })
 
+// The event listener below prevents the NavBar and scrollTopBtn to hide if the mouse
+// pointer is hovering over the button.
 scrollTopBtn.addEventListener('mouseenter', function() {
     showNavMenu();
     showScrollTopBtn();
@@ -188,10 +196,11 @@ scrollTopBtn.addEventListener('mouseenter', function() {
 
 })
 
+// This for loop adds the collapse functionality to all sections
 for (let i = 0; i < listOfSections.length; i++) {
     let section = listOfSections[i];
     let collapseBtn = section.querySelector('a');
-    // Adding class for styling
+    // The event listener click will change the behavior of the button.
     collapseBtn.addEventListener('click', function() {
         listOfContent[i].classList.toggle('collapse');
         section.classList.remove('your-active-class');
